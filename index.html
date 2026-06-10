@@ -554,7 +554,8 @@ const defaultConfig = {
   business_name: localStorage.getItem('pos_biz_name') || 'Mi Negocio',
   currency_symbol: localStorage.getItem('pos_currency') || '$',
   whatsapp_number: localStorage.getItem('pos_wa_number') || '', 
-  bg_color: '#0f172a',
+  admin_pin: localStorage.getItem('pos_admin_pin') || '790208', // <--- NUEVO PIN
+  bg_color: '#050505',
   surface_color: '#1e293b',
   text_color: '#e2e8f0',
   accent_color: '#38bdf8',
@@ -893,8 +894,8 @@ document.getElementById('pin-confirm').onclick = () => {
   const input = document.getElementById('admin-pin-input');
   const btnConfirm = document.getElementById('pin-confirm');
 
-  // Actualizado a la contraseña solicitada (631856) y mantenemos la anterior por si acaso
-  if (input.value === '790208' || input.value === '790208') {
+  // Validamos contra la configuración dinámica
+  if (input.value === defaultConfig.admin_pin) {
     if (!activeRefundSaleId) return;
     
     const clickedSale = allRecords.find(r => r.id === activeRefundSaleId);
@@ -3682,12 +3683,12 @@ function renderUsersAdmin(container) {
   };
 }
 
-// ========== SETTINGS (NUBE + LOGO) ==========
 function renderSettings(container) {
   const cloudConfig = records('config')[0] || {};
   const currentName = cloudConfig.business_name || defaultConfig.business_name;
   const currentCurrency = cloudConfig.currency_symbol || defaultConfig.currency_symbol;
   const currentWa = cloudConfig.whatsapp_number || defaultConfig.whatsapp_number;
+  const currentPin = cloudConfig.admin_pin || defaultConfig.admin_pin; // <--- LEEMOS EL PIN
   
   // Buscamos si ya hay un logo guardado en la colección independiente
   const savedLogoRecord = records('sys_file').find(f => f.name === 'main_logo');
@@ -3711,6 +3712,11 @@ function renderSettings(container) {
         <div>
           <label class="block text-sm text-muted mb-1">WhatsApp del Dueño (Con cód. país)</label>
           <input id="set-wa" type="number" class="bg-card border border-card rounded-lg px-3 py-2 text-sm w-full focus:border-accent focus:outline-none" value="${currentWa}" placeholder="52...">
+        </div>
+        <div class="pt-3 mt-1 border-t border-card">
+          <label class="block text-sm font-bold text-accent mb-1"><i data-lucide="shield-alert" class="w-4 h-4 inline-block mr-1"></i>PIN de Autorización</label>
+          <p class="text-xs text-muted mb-2">Clave requerida para cancelar o editar tickets.</p>
+          <input id="set-pin" type="text" class="bg-card border border-card rounded-lg px-3 py-2 text-lg font-bold tracking-[0.3em] w-full focus:border-accent focus:outline-none text-center" value="${currentPin}" placeholder="Ej. 790208">
         </div>
       </div>
 
@@ -3786,7 +3792,8 @@ function renderSettings(container) {
       type: 'config',
       business_name: document.getElementById('set-name').value.trim() || 'Mi Negocio',
       currency_symbol: document.getElementById('set-currency').value.trim() || '$',
-      whatsapp_number: document.getElementById('set-wa').value.trim()
+      whatsapp_number: document.getElementById('set-wa').value.trim(),
+      admin_pin: document.getElementById('set-pin').value.trim() || '790208' // <--- GUARDAMOS EL PIN
     };
 
     const existingConfig = records('config')[0];
@@ -4987,10 +4994,12 @@ const coleccionesCatalogos = ['productos', 'usuarios', 'categorias', 'configurac
         defaultConfig.business_name = cloudConfig.business_name || 'Mi Negocio';
         defaultConfig.currency_symbol = cloudConfig.currency_symbol || '$';
         defaultConfig.whatsapp_number = cloudConfig.whatsapp_number || '';
+        defaultConfig.admin_pin = cloudConfig.admin_pin || '790208'; // <--- ACTUALIZA PIN
         
         localStorage.setItem('pos_biz_name', defaultConfig.business_name);
         localStorage.setItem('pos_currency', defaultConfig.currency_symbol);
         localStorage.setItem('pos_wa_number', defaultConfig.whatsapp_number);
+        localStorage.setItem('pos_admin_pin', defaultConfig.admin_pin); // <--- GUARDA EN CACHÉ
 
         const headers = document.querySelectorAll('header span.font-bold, h1.text-2xl.font-bold');
         headers.forEach(h => h.textContent = defaultConfig.business_name);
