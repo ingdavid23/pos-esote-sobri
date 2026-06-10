@@ -13,22 +13,22 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
   <style>
-    * { font-family: 'DM Sans', sans-serif; }
+    * { font-family: 'DM Sans', sans-serif; color-scheme: dark; } /* Fuerza fondos oscuros nativos */
     html, body { height: 100%; margin: 0; }
     ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-thumb { background: #93c5fd; border-radius: 3px; } /* Azul claro */
+    ::-webkit-scrollbar-thumb { background: #ff0000; border-radius: 3px; } /* Scrollbar rojo */
     ::-webkit-scrollbar-track { background: transparent; }
     
     /* === CONTORNOS NATURALES Y ELEGANTES === */
     div.bg-surface.rounded-xl.border {
       border-width: 1px !important;
-      border-color: #bfdbfe !important; /* Borde azul muy tenue */
-      box-shadow: 0 4px 15px rgba(29, 78, 216, 0.05) !important; /* Sombra azulada suave */
+      border-color: #1a1a1a !important; /* Borde oscuro */
+      box-shadow: 0 4px 15px rgba(255, 0, 0, 0.05) !important; /* Sombra rojiza muy suave */
     }
     
     tr.border-b {
       border-bottom-width: 1px !important;
-      border-color: #eff6ff !important; /* Azul casi blanco para separar tablas */
+      border-color: #1a1a1a !important; /* Separador de tablas oscuro */
     }
     /* ======================================= */
     @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
@@ -64,16 +64,16 @@ tailwind.config = {
   theme: {
     extend: {
       colors: {
-        bg: '#f8fafc',       // Fondo general casi blanco con un micro-toque azulado
-        surface: '#ffffff',  // Blanco puro (Tarjetas)
-        card: '#e2e8f0',     // Gris-azul claro (Para bordes y hovers sutiles)
-        accent: '#1d4ed8',   // Azul vibrante (Botones principales)
-        accent2: '#1e3a8a',  // Azul marino oscuro (¡Exacto al pie de página de GLEX!)
-        danger: '#ef4444',   // Rojo (Mantenemos el rojo que hace juego con tu logo)
+        bg: '#050505',       // Casi negro absoluto
+        surface: '#111111',  // Gris súper oscuro (Tarjetas y modales)
+        card: '#1a1a1a',     // Gris oscuro (Bordes e inputs)
+        accent: '#ff0000',   // Rojo puro (Botones principales)
+        accent2: '#cc0000',  // Rojo más oscuro
+        danger: '#ef4444',   // Rojo alerta
         success: '#10b981',  // Verde (Dinero)
         warn: '#f59e0b',     // Naranja (Alertas)
-        txt: '#0f172a',      // Azul oscuro casi negro (Texto)
-        muted: '#64748b'     // Gris-azul desaturado (Texto secundario)
+        txt: '#ffffff',      // Blanco (Texto general)
+        muted: '#9ca3af'     // Gris desaturado (Texto secundario)
       }
     }
   }
@@ -1289,8 +1289,8 @@ function renderLogin() {
     ? `<img src="${sysLogo}" class="w-24 h-24 object-contain mx-auto mb-4 drop-shadow-lg rounded-2xl bg-white/5 p-2">`
     : `<div class="w-16 h-16 bg-accent/20 rounded-2xl flex items-center justify-center mx-auto mb-4"><i data-lucide="shopping-bag" class="w-8 h-8 text-accent"></i></div>`;
     app.innerHTML = `
-  <div class="h-full w-full flex items-center justify-center p-4" style="background: linear-gradient(135deg, #f0f4f8 0%, #dbeafe 50%, #f0f4f8 100%);">
-    <div class="bg-surface rounded-2xl p-8 w-full max-w-md fade-in border border-blue-100" style="box-shadow: 0 25px 50px -12px rgba(30, 58, 138, 0.15), 0 0 15px rgba(0,0,0,0.05);">
+  <div class="h-full w-full flex items-center justify-center p-4" style="background: radial-gradient(circle at center, #2a0000 0%, #050505 100%);">
+    <div class="bg-surface rounded-2xl p-8 w-full max-w-md fade-in border border-card" style="box-shadow: 0 15px 35px -10px rgba(255,0,0,0.15), 0 0 15px rgba(0,0,0,0.5);">
       <div class="text-center mb-8">
         ${logoHtml}
         <h1 class="text-2xl font-bold">${bizName()}</h1>
@@ -1665,31 +1665,32 @@ async function renderDashboard(container) {
       new Chart(ctxTop.getContext('2d'), {
         type: 'doughnut',
         data: {
-          labels: topProducts.map(tp => tp[0]), // Nombres
+          labels: topProducts.map(tp => tp[0]), 
           datasets: [{
-            data: topProducts.map(tp => tp[1]), // Cantidades
+            data: topProducts.map(tp => tp[1]), 
             backgroundColor: [
-              '#e11d48', // Accent (Rosa fuerte)
-              '#f59e0b', // Warn (Naranja)
-              '#10b981', // Success (Verde)
-              '#be123c', // Accent2 (Vino)
-              '#f9a8d4'  // Rosa clarito
+              '#ff0000', // Rojo principal
+              '#f59e0b', // Naranja
+              '#10b981', // Verde
+              '#cc0000', // Rojo oscuro
+              '#990000'  // Vino
             ],
             borderWidth: 2,
-            borderColor: '#ffffff', // Borde blanco para separar las rebanadas
-            hoverOffset: 6 // Efecto chulo al pasar el mouse
+            borderColor: '#111111', // Color de separación igual al fondo de la tarjeta
+            hoverOffset: 6 
           }]
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          cutout: '65%', // Agujero del centro (aspecto de Dona)
+          cutout: '65%', 
           plugins: {
             legend: {
-              position: 'right', // Leyenda a un lado
+              position: 'right', 
               labels: {
+                color: '#ffffff', // Texto de la leyenda en blanco
                 font: { family: "'DM Sans', sans-serif", size: 11 },
-                usePointStyle: true, // Círculos en lugar de cuadrados
+                usePointStyle: true, 
                 boxWidth: 8
               }
             }
@@ -3826,8 +3827,8 @@ function renderCashierPOS() {
   // === Proteger todas las pestañas y restaurar diseño Andy Candy ===
   if (!cashRegisterOpen && currentView.startsWith('cashier-')) {
     app.innerHTML = `
-   <div class="h-full w-full flex items-center justify-center p-4" style="background: linear-gradient(135deg, #f0f4f8 0%, #dbeafe 50%, #f0f4f8 100%);">
-      <div class="bg-surface rounded-2xl p-8 w-full max-w-sm fade-in text-center border border-blue-100" style="box-shadow: 0 25px 50px -12px rgba(30, 58, 138, 0.15), 0 0 15px rgba(0,0,0,0.05);">
+  <div class="h-full w-full flex items-center justify-center p-4" style="background: radial-gradient(circle at center, #2a0000 0%, #050505 100%);">
+   <div class="bg-surface rounded-2xl p-8 w-full max-w-sm fade-in text-center border border-card" style="box-shadow: 0 15px 35px -10px rgba(255,0,0,0.15), 0 0 15px rgba(0,0,0,0.5);">
         <div class="w-14 h-14 bg-accent/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
           <i data-lucide="unlock" class="w-7 h-7 text-accent"></i>
         </div>
@@ -3899,7 +3900,7 @@ function renderCashierPOS() {
 
   app.innerHTML = `
   <div class="h-full w-full flex flex-col" style="min-height:100%;">
-    <header class="bg-[#eff6ff] border-b border-[#bfdbfe] shadow-sm px-4 py-3 flex items-center justify-between shrink-0 overflow-x-auto" style="scrollbar-width: none;">
+   <header class="bg-surface border-b border-card shadow-sm px-4 py-3 flex items-center justify-between shrink-0 overflow-x-auto" style="scrollbar-width: none;">
       <div class="flex items-center gap-2 sm:gap-3 shrink-0">
         <i data-lucide="shopping-bag" class="w-5 h-5 text-accent hidden sm:block"></i>
         <span class="font-bold text-txt">${bizName()}</span>
@@ -4150,7 +4151,7 @@ function renderCashierPOS() {
      <button data-add-prod="${p.id}" class="bg-surface hover:bg-card border-2 border-card/60 rounded-xl p-3 text-left transition group flex flex-col relative shadow-md h-full">
         ${!p.is_service && p.stock <= (p.min_stock || 5) ? `<div class="absolute top-0 right-0 bg-warn text-white text-[10px] px-2 py-1 font-bold rounded-tr-xl rounded-bl-lg z-10 shadow-sm">Bajo Stock</div>` : ''}
         
-       <div class="w-full h-28 bg-[#eff6ff] rounded-lg flex items-center justify-center shrink-0 mb-3 overflow-hidden border border-card/30">
+       <div class="w-full h-28 bg-card rounded-lg flex items-center justify-center shrink-0 mb-3 overflow-hidden border border-card/30">
           ${p.image ? `<img src="${p.image}" class="w-full h-full object-cover">` : `<i data-lucide="image" class="text-muted/30 w-8 h-8"></i>`}
         </div>
 
