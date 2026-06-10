@@ -4226,11 +4226,14 @@ function renderCashierPOS() {
     container.querySelectorAll('[data-cart-minus]').forEach(b => {
       b.onclick = () => { 
         const i=parseInt(b.dataset.cartMinus); 
-        // Si el peso es menor a 1 kg, el botón "-" quita 0.100g para hacerlo más lógico
-        if(cart[i].qty <= 1) cart[i].qty = Number((cart[i].qty - 0.1).toFixed(3));
-        else cart[i].qty--; 
         
-        if(cart[i].qty<=0) cart.splice(i,1); 
+        // Si la cantidad es 1 o menor, se elimina todo el producto del carrito
+        if(cart[i].qty <= 1) {
+            cart.splice(i, 1);
+        } else {
+            cart[i].qty--; 
+        }
+        
         renderPOSView(); 
       };
     });
