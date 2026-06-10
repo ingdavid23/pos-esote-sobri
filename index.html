@@ -472,15 +472,15 @@ import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.1/firebase
 import { initializeFirestore, persistentLocalCache, persistentMultipleTabManager, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 // ======================================================================
 
-// Tu nueva configuración de Firebase (autolavado-4ceec)
+// Nueva configuración de Firebase (sobrino-esote)
 const firebaseConfig = {
-  apiKey: "AIzaSyCFxtns4KPjhMyjJEa3lA5OGhqlDVpTFpg",
-  authDomain: "autolavado-4ceec.firebaseapp.com",
-  projectId: "autolavado-4ceec",
-  storageBucket: "autolavado-4ceec.firebasestorage.app",
-  messagingSenderId: "575435349244",
-  appId: "1:575435349244:web:046ffac344941090d64b79",
-  measurementId: "G-YMRPH2NV31"
+  apiKey: "AIzaSyBofiuDHGpgJgjbjcf7apJiPxraBPuwekA",
+  authDomain: "sobrino-esote.firebaseapp.com",
+  projectId: "sobrino-esote",
+  storageBucket: "sobrino-esote.firebasestorage.app",
+  messagingSenderId: "445837488308",
+  appId: "1:445837488308:web:d0753b6f098c025731e7e1",
+  measurementId: "G-XRKTF946R5"
 };
 
 const firebaseApp = initializeApp(firebaseConfig);
@@ -489,6 +489,8 @@ const analytics = getAnalytics(firebaseApp);
 const db = initializeFirestore(firebaseApp, {
   localCache: persistentLocalCache({tabManager: persistentMultipleTabManager()})
 });
+
+// Función para enrutar a las colecciones correctas en Firestore
 function getColeccion(tipo) {
   const map = {
     'product': 'productos',
@@ -501,7 +503,7 @@ function getColeccion(tipo) {
     'config': 'configuracion',
     'sys_file': 'archivos_sistema',
     'bulk_material': 'insumos_granel',
-    'client': 'clientes' // <-- NUEVA LÍNEA: Colección de clientes
+    'client': 'clientes' 
   };
   return map[tipo] || 'registros_generales';
 }
